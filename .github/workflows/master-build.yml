@@ -10,13 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup Redis
-      uses: supercharge/redis-github-action@1.1.0
+    - uses: actions/checkout@v2    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+    - name: Start Redis
+      uses: supercharge/redis-github-action@1.1.0
+      with:
+        redis-version: 6  
     - name: Install dependencies
       run: dotnet restore
     - name: Install CodeCov.Tool

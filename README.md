@@ -1,10 +1,12 @@
 # TCache
-![Master](https://github.com/greenygh0st/tcache/workflows/Master/badge.svg?branch=master) [![codecov](https://codecov.io/gh/greenygh0st/tcache/branch/master/graph/badge.svg)](https://codecov.io/gh/greenygh0st/tcache) [![nuget](https://img.shields.io/nuget/v/TCache)](https://www.nuget.org/packages/TCache/)
+![Master](https://github.com/greenygh0st/tcache/workflows/Master/badge.svg?branch=master) [![codecov](https://codecov.io/gh/greenygh0st/tcache/branch/master/graph/badge.svg)](https://codecov.io/gh/greenygh0st/tcache) [![nuget](https://img.shields.io/nuget/v/TCache.Redis)](https://www.nuget.org/packages/TCache.Redis/) [![nugetname](https://img.shields.io/badge/nuget%20package-TCache.Redis-brightgreen)](https://www.nuget.org/packages/TCache.Redis/)
 
 TCache is a simple Redis wrapper to simplify some basic operations with Redis in C# and provide easy to use typable response methods.
 
 Constuctors
 ```
+using TCache;
+
 // provide a path to redis
 public TCacheService(string redisUri)
 

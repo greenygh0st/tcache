@@ -7,6 +7,7 @@
     <PackageProjectUrl>https://github.com/greenygh0st/tcache</PackageProjectUrl>
     <Title>TCache.Redis</Title>
     <Description>TCache is a Redis wrapper to simplify some basic operations with Redis in C#.</Description>
+    <PackageId>TCache.Redis</PackageId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
-      run: dotnet test -c Release --verbosity normal /p:CI=true
+      run: dotnet test -c Release --verbosity normal --collect:"XPlat Code Coverage" /p:CI=true
       env:
         TEST_REDIS_URI: localhost:6379
     - name: Report Coverage

@@ -1,0 +1,31 @@
+name: TCache-Master
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup Redis
+      uses: zhulik/redis-action@1.1.0
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Install CodeCov.Tool
+      run: dotnet tool install -g Codecov.Tool
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Report Coverage
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./TCache.Tests/TestResults/**/coverage.cobertura.xml

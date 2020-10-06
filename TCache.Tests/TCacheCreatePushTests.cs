@@ -11,6 +11,7 @@ using TCache.Tests.TestHelpers;
 /// </summary>
 namespace TCache.Tests
 {
+    [Collection("Tests")]
     public class TCacheCreatePushTests
     {
         private string _connectionString { get; set; }

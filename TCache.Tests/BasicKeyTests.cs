@@ -5,6 +5,7 @@ using Xunit;
 
 namespace TCache.Tests
 {
+    [Collection("Tests")]
     public class BasicKeyTests
     {
         [Fact]

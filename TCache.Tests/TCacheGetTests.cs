@@ -7,6 +7,7 @@ using Xunit;
 
 namespace TCache.Tests
 {
+    [Collection("Tests")]
     public class TCacheGetTests
     {
         private string TestQueueName = "test:set:two";

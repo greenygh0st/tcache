@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageVersion>1.0.1</PackageVersion>
+    <PackageVersion>1.0.2</PackageVersion>
     <Authors>Dale Myszewski &lt;dale@bubblelabs.dev&gt;</Authors>
     <PackageProjectUrl>https://github.com/greenygh0st/tcache</PackageProjectUrl>
     <Title>TCache.Redis</Title>
-    <Description>TCache is a Redis wrapper to simplify some basic operations with Redis in C#.</Description>
+    <Description>TCache is a Redis wrapper designed to simplify some basic operations with Redis in C# and provide easy to use typable response methods.</Description>
     <PackageId>TCache.Redis</PackageId>
   </PropertyGroup>
 

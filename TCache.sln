@@ -1,8 +1,6 @@
 
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EBCD4D18-A43D-45C2-B99F-3C687910BB6B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCache", "TCache\TCache.csproj", "{CB00124C-A962-4883-9133-7EED3882440A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCache.Tests", "TCache.Tests\TCache.Tests.csproj", "{C9E3B579-5A2E-4B2E-8BA5-3E3C5729C541}"

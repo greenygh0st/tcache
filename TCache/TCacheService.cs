@@ -21,7 +21,7 @@ namespace TCache
         }
 
         /// <summary>
-        /// TCacheService constructor, assume localhost for Redis URI
+        /// TCacheService constructor, assumes localhost:6379 for Redis URI
         /// </summary>
         public TCacheService()
         {
@@ -29,7 +29,7 @@ namespace TCache
         }
 
         /// <summary>
-        /// Retrieve the string value for a given key
+        /// Retrieve the string value from a given key
         /// </summary>
         /// <param name="key">The key you want to fetch</param>
         /// <returns></returns>
@@ -50,7 +50,7 @@ namespace TCache
         }
 
         /// <summary>
-        /// Retrieve a given object for a given key.
+        /// Retrieve a given object from a given key.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key">The key you want to retrieve</param>
@@ -200,6 +200,16 @@ namespace TCache
         public async Task<bool> QueueExists(string key)
         {
             return await KeyExists($"queue:{key}");
+        }
+
+        /// <summary>
+        /// Remove a queue from Redis
+        /// </summary>
+        /// <param name="key"><see cref="string"/> value for the key you want to check</param>
+        /// <returns></returns>
+        public async Task<bool> RemoveQueue(string key)
+        {
+            return await RemoveKey($"queue:{key}");
         }
 
         #region Disposable

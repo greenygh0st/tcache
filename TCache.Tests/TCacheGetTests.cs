@@ -12,6 +12,7 @@ namespace TCache.Tests
     {
         private string TestQueueName = "test:set:two";
         private string TestQueueNameEmpty = "test:set:empty";
+        private string TestRemoveQueue = "test:set:remove";
 
         public TCacheGetTests()
         {
@@ -44,7 +45,7 @@ namespace TCache.Tests
             done = done && cat3 != null && cat4 == null;
 
             // remove the queue
-            await cache.RemoveKey(TestQueueName);
+            await cache.RemoveQueue(TestQueueName);
 
             // result
             Assert.True(done);
@@ -57,6 +58,19 @@ namespace TCache.Tests
             {
                 Cat noCat = await cache.PopFromQueue<Cat>(TestQueueNameEmpty);
                 Assert.Null(noCat);
+            }
+        }
+
+        [Fact]
+        public async Task TestRemoveExistingQueue()
+        {
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
+            {
+                await cache.PushToQueue(TestRemoveQueue, new List<Cat> { new Cat { Name = "Kel", Age = 12 } });
+                await cache.RemoveQueue(TestRemoveQueue);
+                bool result = await cache.QueueExists(TestRemoveQueue);
+
+                Assert.False(result);
             }
         }
     }

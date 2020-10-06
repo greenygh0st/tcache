@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Setup Redis
-      uses: zhulik/redis-action@1.1.0
+      uses: supercharge/redis-github-action@1.1.0
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:

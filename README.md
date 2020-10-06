@@ -26,7 +26,7 @@ public async Task<string> GetValueFromKey(string key)
 // get the types value for a given key
 public async Task<T> GetValueFromKey<T>(string key)
 
-// check to see if a key exists, not the fetch functions will return null for empty keys making this useful
+// check to see if a key exists, note the fetch functions will return null for empty keys making this useful for just checking
 public async Task<bool> KeyExists(string key)
 
 // remove the specified key from Redis

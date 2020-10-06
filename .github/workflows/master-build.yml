@@ -26,6 +26,7 @@ jobs:
           - 6379:6379
 
     steps:
+    # Set everything up
     - uses: actions/checkout@v2    
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -35,13 +36,29 @@ jobs:
       run: dotnet restore
     - name: Install CodeCov.Tool
       run: dotnet tool install -g Codecov.Tool
+    # Build the project
     - name: Build
       run: dotnet build --configuration Release --no-restore
+    # Test the project
     - name: Test
       run: dotnet test -c Release --verbosity normal --collect:"XPlat Code Coverage" /p:CI=true
       env:
         TEST_REDIS_URI: localhost:6379
+    # Make sure we have proper coverage
     - name: Report Coverage
       uses: codecov/codecov-action@v1
       with:
         file: ./TCache.Tests/TestResults/**/coverage.cobertura.xml
+    
+    # Publish to NuGet
+    - name: publish on version change
+      id: publish_nuget
+      uses: rohith/publish-nuget@v2
+      with:
+        # Filepath of the project to be packaged, relative to root of repository
+        PROJECT_FILE_PATH: TCache/TCache.csproj
+        VERSION_REGEX: <PackageVersion>(.*)<\/PackageVersion>
+        # Format of the git tag, [*] gets replaced with actual version
+        TAG_FORMAT: v*
+        # API key to authenticate with NuGet server
+        NUGET_KEY: ${{secrets.NUGET_KEY}}

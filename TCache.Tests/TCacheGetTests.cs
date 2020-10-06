@@ -14,7 +14,7 @@ namespace TCache.Tests
 
         public TCacheGetTests()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 bool cleaned = cache.RemoveKey(TestQueueName).Result;
             }
@@ -24,7 +24,7 @@ namespace TCache.Tests
         [Fact, TestPriority(1)]
         public async Task GetQueue()
         {
-            TCacheService cache = new TCacheService();
+            TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri);
             await cache.PushToQueue(TestQueueName, new List<Cat> { new Cat { Name = "NotDead", Age = 3 } });
             Cat cat1 = await cache.PopFromQueue<Cat>(TestQueueName, TCachePopMode.Get);
             Cat cat2 = await cache.PopFromQueue<Cat>(TestQueueName, TCachePopMode.Get);
@@ -52,7 +52,7 @@ namespace TCache.Tests
         [Fact]
         public async Task GetEmptyQueue()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 Cat noCat = await cache.PopFromQueue<Cat>(TestQueueNameEmpty);
                 Assert.Null(noCat);

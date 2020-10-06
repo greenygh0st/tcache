@@ -6,6 +6,6 @@ namespace TCache.Tests
 {
     class TestConfiguration
     {
-        public static readonly string ENVRedisUri = Environment.GetEnvironmentVariable("TEST_REDIS_URI");
+        public static readonly string EnvRedisUri = string.IsNullOrEmpty(Environment.GetEnvironmentVariable("TEST_REDIS_URI")) ? "localhost:6379" : Environment.GetEnvironmentVariable("TEST_REDIS_URI");
     }
 }

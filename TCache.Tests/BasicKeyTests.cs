@@ -10,7 +10,7 @@ namespace TCache.Tests
         [Fact]
         public async Task RemoveKeyNoKey()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 bool result = await cache.RemoveKey("blah blah blah");
                 Assert.True(result);
@@ -20,7 +20,7 @@ namespace TCache.Tests
         [Fact]
         public async Task RemoveKeyWithKey()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 // set
                 await cache.SetObjectAsKeyValue("test1", "blah blah blah");
@@ -39,7 +39,7 @@ namespace TCache.Tests
         [Fact]
         public async Task SetKey()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 await cache.SetObjectAsKeyValue("test2", "hi!");
 
@@ -54,7 +54,7 @@ namespace TCache.Tests
         [Fact]
         public async Task GetEmptyValue()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 string value = await cache.GetValueFromKey("test3");
 
@@ -65,7 +65,7 @@ namespace TCache.Tests
         [Fact]
         public async Task TypedValueFetch()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 await cache.SetObjectAsKeyValue("test4", new Cat { Name = "Billy", Age = 90 });
 
@@ -79,7 +79,7 @@ namespace TCache.Tests
         [Fact]
         public async Task KeyExistsTest()
         {
-            using (TCacheService cache = new TCacheService())
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 await cache.SetObjectAsKeyValue("test5", "test");
 

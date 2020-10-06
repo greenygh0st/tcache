@@ -6,8 +6,21 @@ on:
 
 jobs:
   build:
-
+    # run on ubuntu
     runs-on: ubuntu-latest
+    
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        # Set health checks to wait until redis has started
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@v2    
@@ -15,10 +28,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Start Redis
-      uses: supercharge/redis-github-action@1.1.0
-      with:
-        redis-version: 6  
     - name: Install dependencies
       run: dotnet restore
     - name: Install CodeCov.Tool

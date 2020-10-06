@@ -93,7 +93,7 @@ namespace TCache
         /// <param name="value">The object to be stored</param>
         /// <param name="expires">Timespan which represents the time until expiration/param>
         /// <returns></returns>
-        public async Task<bool> SetObjectAsKeyValue(string key, object value, TimeSpan? expires)
+        public async Task<bool> SetObjectAsKeyValue(string key, object value, TimeSpan expires)
         {
             IDatabase db = _redis.GetDatabase();
 
@@ -114,11 +114,6 @@ namespace TCache
             if (await KeyExists(key))
             {
                 await db.KeyDeleteAsync(key);
-
-                if (await KeyExists(key))
-                {
-                    throw new Exception("Key could not be delete!");
-                }
             }
 
             return true;

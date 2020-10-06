@@ -20,7 +20,7 @@ namespace TCache.Tests
 
         public TCacheCreatePushTests()
         {
-            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
+            using (TCacheService cache = new TCacheService())
             {
                 bool cleaned = cache.RemoveKey(TestQueueName).Result;
             }

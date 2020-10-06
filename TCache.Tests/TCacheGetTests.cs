@@ -11,14 +11,15 @@ namespace TCache.Tests
     public class TCacheGetTests
     {
         private string TestQueueName = "test:set:two";
+        private string TestQueueNameSecond = "test:set:three";
         private string TestQueueNameEmpty = "test:set:empty";
         private string TestRemoveQueue = "test:set:remove";
 
         public TCacheGetTests()
         {
-            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
+            using (TCacheService cache = new TCacheService())
             {
-                bool cleaned = cache.RemoveKey(TestQueueName).Result;
+                bool cleaned = cache.RemoveKey(TestQueueName).Result && cache.RemoveKey(TestQueueNameSecond).Result;
             }
         }
 
@@ -51,12 +52,38 @@ namespace TCache.Tests
             Assert.True(done);
         }
 
+        [Fact, TestPriority(2)]
+        public async Task BasicGetQueue()
+        {
+            // NOTE: This test is both to test the basic string fetch functionality and it tests to see if an empty LIST key properly unsets
+            using (TCacheService cache = new TCacheService())
+            {
+                await cache.PushToQueue(TestQueueNameSecond, new List<Cat> { new Cat { Name = "Amolee" } });
+                string result = await cache.PopFromQueue(TestQueueNameSecond);
+
+                bool resultCheck = result.Contains("Amolee");
+                bool queueExists = await cache.QueueExists(TestQueueNameSecond);
+
+                Assert.True(resultCheck && !queueExists);
+            }
+        }
+
         [Fact]
         public async Task GetEmptyQueue()
         {
             using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
             {
                 Cat noCat = await cache.PopFromQueue<Cat>(TestQueueNameEmpty);
+                Assert.Null(noCat);
+            }
+        }
+
+        [Fact]
+        public async Task GetEmptyNoTypeQueue()
+        {
+            using (TCacheService cache = new TCacheService(TestConfiguration.EnvRedisUri))
+            {
+                string noCat = await cache.PopFromQueue(TestQueueNameEmpty);
                 Assert.Null(noCat);
             }
         }

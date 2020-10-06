@@ -36,6 +36,8 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
+      env:
+        TEST_REDIS_URI: redis:6379
     - name: Report Coverage
       uses: codecov/codecov-action@v1
       with:

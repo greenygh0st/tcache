@@ -6,10 +6,10 @@ namespace TCache
         /// <summary>
         /// Get the item and take no further actions
         /// </summary>
-        Get,
+        Get = 0,
         /// <summary>
         /// Get the item and delete the message
         /// </summary>
-        Delete
+        Delete = 1
     }
 }

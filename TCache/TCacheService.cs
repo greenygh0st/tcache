@@ -146,7 +146,7 @@ namespace TCache
 
             foreach (var item in values)
             {
-                valuesToPush.Add(JsonConvert.SerializeObject(item));
+                valuesToPush.Add((item is string) ? item.ToString() : JsonConvert.SerializeObject(item));
             }
 
             await db.ListRightPushAsync(new RedisKey($"queue:{queueName}"), valuesToPush.ToArray());

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <PackageVersion>1.0.4</PackageVersion>
+    <PackageVersion>1.1.0</PackageVersion>
     <Authors>Dale Myszewski &lt;dale@bubblelabs.dev&gt;</Authors>
     <PackageProjectUrl>https://github.com/greenygh0st/tcache</PackageProjectUrl>
     <Title>TCache.Redis</Title>

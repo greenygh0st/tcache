@@ -10,6 +10,7 @@ namespace TCache
     {
         private bool disposedValue;
         private ConnectionMultiplexer _redis;
+        private string _redisUri;
 
         /// <summary>
         /// TCacheService constructor, supply redis uri
@@ -17,6 +18,7 @@ namespace TCache
         /// <param name="redisUri">The Redis server you want to connect to</param>
         public TCacheService(string redisUri)
         {
+            _redisUri = redisUri;
             _redis = ConnectionMultiplexer.Connect(redisUri);
         }
 
@@ -25,7 +27,8 @@ namespace TCache
         /// </summary>
         public TCacheService()
         {
-            _redis = ConnectionMultiplexer.Connect("localhost:6379");
+            _redisUri = "localhost:6379";
+            _redis = ConnectionMultiplexer.Connect(_redisUri);
         }
 
         /// <summary>
@@ -47,6 +50,72 @@ namespace TCache
             {
                 return value.ToString();
             }
+        }
+
+        /// <summary>
+        /// Search for keys that meet a particular pattern and return their key names.
+        /// </summary>
+        /// <param name="searchPattern">Search term, use wildcard characters '*' before and after your search term to search non-specifically.</param>
+        /// <returns>List of found keys</returns>
+        public async Task<List<string>> SearchKeys(string searchPattern)
+        {
+            var server = _redis.GetServer(_redisUri);
+
+            List<string> keys = new List<string>();
+
+            await foreach (var item in server.KeysAsync(pattern: searchPattern))
+                keys.Add(item.ToString());
+
+            return keys;
+        }
+
+        /// <summary>
+        /// Return the keys and values of the searched objects
+        /// </summary>
+        /// <param name="searchPattern">Search term, use wildcard characters '*' before and after your search term to search non-specifically.</param>
+        /// <returns>A dictionary of key value pairs.</returns>
+        public async Task<Dictionary<string, string>> SearchKeyValues(string searchPattern)
+        {
+            IDatabase db = _redis.GetDatabase();
+            Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+            List<Task> fetchTasks = new List<Task>();
+
+            foreach (var item in await SearchKeys(searchPattern))
+            {
+                fetchTasks.Add(Task.Run(async () => {
+                    var result = await GetValueFromKey(item);
+                    keyValuePairs.Add(item, result);
+                }));
+            }
+
+            Task.WaitAll(fetchTasks.ToArray());
+
+            return keyValuePairs;
+        }
+
+        /// <summary>
+        /// Return the keys and typed values of the searched objects
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchPattern">Search term, use wildcard characters '*' before and after your search term to search non-specifically.</param>
+        /// <returns>A dictionary of keys and typed value pairs.</returns>
+        public async Task<Dictionary<string, T>> SearchKeyValues<T>(string searchPattern)
+        {
+            IDatabase db = _redis.GetDatabase();
+            Dictionary<string, T> keyValuePairs = new Dictionary<string, T>();
+            List<Task> fetchTasks = new List<Task>();
+
+            foreach (var item in await SearchKeys(searchPattern))
+            {
+                fetchTasks.Add(Task.Run(async () => {
+                    var result = await GetValueFromKey<T>(item);
+                    keyValuePairs.Add(item, result);
+                }));
+            }
+
+            Task.WaitAll(fetchTasks.ToArray());
+
+            return keyValuePairs;
         }
 
         /// <summary>

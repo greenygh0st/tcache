@@ -49,4 +49,13 @@ public async Task<bool> QueueExists(string key)
 // remove a queue/list from redis
 public async Task<bool> RemoveQueue(string key)
 
+// Search for keys that meet a particular pattern and return their key names.
+public async Task<List<string>> SearchKeys(string searchPattern)
+
+// Return the keys and values of the searched objects
+public async Task<Dictionary<string, string>> SearchKeyValues(string searchPattern)
+
+// Return the keys and typed values of the searched objects
+public async Task<Dictionary<string, T>> SearchKeyValues<T>(string searchPattern)
+
 ```

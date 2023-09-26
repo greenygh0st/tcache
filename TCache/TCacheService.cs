@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using StackExchange.Redis;
@@ -59,7 +60,11 @@ namespace TCache
         /// <returns>List of found keys</returns>
         public async Task<List<string>> SearchKeys(string searchPattern)
         {
-            var server = _redis.GetServer(_redisUri);
+            using ConnectionMultiplexer connection = ConnectionMultiplexer.Connect(_redisUri);
+            var endpoint = connection.GetEndPoints()[0];
+            var server = connection.GetServer(endpoint);
+            //var server = _redis.GetServer(_redisUri);
+
 
             List<string> keys = new List<string>();
 
